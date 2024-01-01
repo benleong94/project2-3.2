@@ -24,7 +24,7 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
   };
 
   const handleLike = () => {
-    let displayedProfile = profiles[currentIndex]
+    let displayedProfile = roomieProfiles[currentIndex]
     let userProfile = profiles.find((profile) => profile.key == user.uid)
     userProfile.val.peopleLiked.push(displayedProfile.key)
 
@@ -90,6 +90,7 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
     <div>
       {roomieProfiles.length > 0 ? (
         <div className='roomie-wrapper'>
+          {console.log(roomieProfiles)}
           <div className="profile-wrapper">
             <Link to="/roomie-details">
               <UserProfile profile={roomieProfiles[currentIndex]} />
