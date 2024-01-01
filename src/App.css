@@ -176,3 +176,24 @@ body {
 .input-container button:hover {
     background-color: #4cae4c;
 }
+
+.greeting-user {
+    font-family: 'Arial', sans-serif; 
+    font-size: 2rem;
+    color: #333; 
+    background-color: white;
+    padding: 10px; 
+    margin-bottom: 50px; 
+    border-radius: 5px; 
+    text-align: center; 
+    max-width: 300px; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+@media screen and (max-width: 600px) {
+    .greeting-user {
+        font-size: 14px; 
+        padding: 8px; 
+    }
+}

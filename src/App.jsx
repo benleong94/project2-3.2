@@ -63,13 +63,9 @@ function App() {
   return (
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
-      <div>
-        {" "}
-        Welcome,{" "}
-        {Object.keys(currentProfile).length !== 0
-          ? currentProfile.val.name
-          : null}{" "}
-      </div>
+      {Object.keys(currentProfile).length !== 0 ? (
+        <div className='greeting-user'> Welcome, {currentProfile.val.name}!</div>
+      ) : null}
       <Routes>
         <Route
           path="/"
