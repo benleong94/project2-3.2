@@ -63,7 +63,7 @@ function InputProfile({user, setIsLoggedIn}) {
   };
 
   return (
-    <div>
+    <div className="input-container">
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>

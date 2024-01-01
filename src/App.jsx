@@ -11,12 +11,15 @@ import InputProfile from './Components/InputProfile';
 import { database, auth } from "./firebase";
 import { signOut } from "firebase/auth";
 import { onChildAdded, onChildChanged, ref} from "firebase/database";
+import RoomieDetails from './Components/RoomieDetails';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const [profiles, setProfiles] = useState([]);
   const [currentProfile, setCurrentProfile] = useState({});
+  const [roomieProfiles, setRoomieProfiles] = useState([]);
+
   const navigate = useNavigate();
 
     const DB_PROFILES_KEY = "profiles";
@@ -41,10 +44,18 @@ function App() {
     });
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    let profilesForDisplay = profiles.filter(
+      (profile) => profile.key !== user.uid
+    );
+    setRoomieProfiles(profilesForDisplay);
+  }, [isLoggedIn]);
+
   const handleSignOut = () => {
     signOut(auth).then(() => {
       setIsLoggedIn(false);
       setUser({});
+      setCurrentProfile({})
       navigate("/")
     });
   };
@@ -52,6 +63,13 @@ function App() {
   return (
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
+      <div>
+        {" "}
+        Welcome,{" "}
+        {Object.keys(currentProfile).length !== 0
+          ? currentProfile.val.name
+          : null}{" "}
+      </div>
       <Routes>
         <Route
           path="/"
@@ -61,12 +79,31 @@ function App() {
         />
         <Route
           path="/find-roomie"
-          element={<Roomie user={user} profiles={profiles} currentProfile={currentProfile}/>}
+          element={
+            <Roomie
+              user={user}
+              profiles={profiles}
+              currentProfile={currentProfile}
+              roomieProfiles={roomieProfiles}
+            />
+          }
         />
+        <Route path="/roomie-details" element={<RoomieDetails />}></Route>
         <Route path="/find-property" element={<Property />} />
-        <Route path="/chat" element={<Chat currentProfile={currentProfile} profiles={profiles}/>} />
-        <Route path="/settings" element={<Settings isLoggedIn={isLoggedIn} handleSignOut={handleSignOut}/>} />
-        <Route path="/create-profile" element={<InputProfile user={user} setIsLoggedIn={setIsLoggedIn}/>} />
+        <Route
+          path="/chat"
+          element={<Chat currentProfile={currentProfile} profiles={profiles} />}
+        />
+        <Route
+          path="/settings"
+          element={
+            <Settings isLoggedIn={isLoggedIn} handleSignOut={handleSignOut} />
+          }
+        />
+        <Route
+          path="/create-profile"
+          element={<InputProfile user={user} setIsLoggedIn={setIsLoggedIn} />}
+        />
       </Routes>
     </div>
   );

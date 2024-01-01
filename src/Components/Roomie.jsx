@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import { database } from "../firebase";
-import { onChildAdded, onChildChanged, ref, update } from "firebase/database";
-import { useEffect } from 'react';
+import { ref, update } from "firebase/database";
+import { Link } from "react-router-dom";
 import UserProfile from './UserProfile';
+import RoomieDetails from './RoomieDetails';
 
-function Roomie({user, profiles, currentProfile}) {
+function Roomie({user, profiles, currentProfile, roomieProfiles}) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [roomieProfiles, setRoomieProfiles] = useState([]);
 
   const DB_PROFILES_KEY = "profiles";
   const profilesRef = ref(database, DB_PROFILES_KEY);
@@ -82,21 +82,18 @@ function Roomie({user, profiles, currentProfile}) {
           }
         }
       })
-    });
+    }); 
     } 
   }, [currentProfile])
-
-  useEffect(() => {
-    let profilesForDisplay = profiles.filter((profile) => profile.key !== user.uid);
-    setRoomieProfiles(profilesForDisplay)
-  }, [profiles])
 
   return (
     <div>
       {roomieProfiles.length > 0 ? (
         <div className='roomie-wrapper'>
           <div className="profile-wrapper">
-            <UserProfile profile={roomieProfiles[currentIndex]} />
+            <Link to="/roomie-details">
+              <UserProfile profile={roomieProfiles[currentIndex]} />
+            </Link>
             <div className='pw-buttons'>
               <button onClick={() => handleSwipe("left")}>Left</button>
               <button onClick={() => handleSwipe("right")}>Right</button>              
