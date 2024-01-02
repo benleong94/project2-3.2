@@ -1,17 +1,18 @@
-import Navbar from './Components/Navbar';
+import Navbar from "./Components/Navbar";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Roomie from './Components/Roomie';
-import Property from './Components/Property';
-import Chat from './Components/Chat';
-import LoginSignup from './Components/LoginSignup';
-import "./App.css"
-import Settings from './Components/Settings';
-import { useState, useEffect } from 'react';
-import InputProfile from './Components/InputProfile';
+import Roomie from "./Components/Roomie";
+import Property from "./Components/Property";
+import Chat from "./Components/Chat";
+import LoginSignup from "./Components/LoginSignup";
+import "./App.css";
+import Settings from "./Components/Settings";
+import { useState, useEffect } from "react";
+import InputProfile from "./Components/InputProfile";
 import { database, auth } from "./firebase";
 import { signOut } from "firebase/auth";
-import { onChildAdded, onChildChanged, ref} from "firebase/database";
-import RoomieDetails from './Components/RoomieDetails';
+import { onChildAdded, onChildChanged, ref } from "firebase/database";
+import RoomieDetails from "./Components/RoomieDetails";
+import LoginErrorPage from "./Components/LoginErrorPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,8 +23,8 @@ function App() {
 
   const navigate = useNavigate();
 
-    const DB_PROFILES_KEY = "profiles";
-    const profilesRef = ref(database, DB_PROFILES_KEY);
+  const DB_PROFILES_KEY = "profiles";
+  const profilesRef = ref(database, DB_PROFILES_KEY);
 
   useEffect(() => {
     onChildAdded(profilesRef, (data) => {
@@ -55,8 +56,8 @@ function App() {
     signOut(auth).then(() => {
       setIsLoggedIn(false);
       setUser({});
-      setCurrentProfile({})
-      navigate("/")
+      setCurrentProfile({});
+      navigate("/");
     });
   };
 
@@ -64,7 +65,10 @@ function App() {
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
       {Object.keys(currentProfile).length !== 0 ? (
-        <div className='greeting-user'> Welcome, {currentProfile.val.name}!</div>
+        <div className="greeting-user">
+          {" "}
+          Welcome, {currentProfile.val.name}!
+        </div>
       ) : null}
       <Routes>
         <Route
@@ -100,9 +104,11 @@ function App() {
           path="/create-profile"
           element={<InputProfile user={user} setIsLoggedIn={setIsLoggedIn} />}
         />
+
+        <Route path="/loginerror" element={<LoginErrorPage />} />
       </Routes>
     </div>
   );
 }
 
-export default App
+export default App;

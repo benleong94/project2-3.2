@@ -5,10 +5,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { ref, set } from "firebase/database"; 
+import { ref, set } from "firebase/database";
 import { database } from "../firebase";
 
-function LoginSignup({setIsLoggedIn, setUser}) {
+function LoginSignup({ setIsLoggedIn, setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -17,7 +17,8 @@ function LoginSignup({setIsLoggedIn, setUser}) {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential.user);
-        const user = userCredential.user; 
+        const user = userCredential.user;
+        //creates an empty profile
         updateUserProfile(user.uid, {
           name: "",
           age: "",
@@ -26,13 +27,14 @@ function LoginSignup({setIsLoggedIn, setUser}) {
           smokingPreference: "",
           petFriendly: false,
           peopleLiked: [""],
-          peopleMatched: [""]
+          peopleMatched: [""],
         });
+        navigate("/create-profile");
       })
       .catch((err) => {
         console.log(err);
-      }); 
-    navigate("/create-profile")
+        navigate("/loginerror");
+      });
   };
 
   const signIn = () => {
@@ -40,24 +42,24 @@ function LoginSignup({setIsLoggedIn, setUser}) {
       .then((userCredential) => {
         setIsLoggedIn(true);
         setUser(userCredential.user);
+        navigate("/find-roomie");
       })
       .catch((err) => {
         console.log(err);
+        navigate("/loginerror");
       });
-    
-      navigate("/find-roomie");
   };
 
   function updateUserProfile(uid, profileData) {
     set(ref(database, "profiles/" + uid), profileData)
       .then(() => {
-        console.log(profileData)
+        console.log(profileData);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       });
   }
-  
+
   return (
     <div className="login-signup-container">
       <label>Email: </label>
@@ -65,6 +67,7 @@ function LoginSignup({setIsLoggedIn, setUser}) {
       <br />
       <label>Password: </label>
       <input
+        type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       ></input>
@@ -76,4 +79,4 @@ function LoginSignup({setIsLoggedIn, setUser}) {
   );
 }
 
-export default LoginSignup
+export default LoginSignup;
