@@ -5,7 +5,6 @@ function Settings({ isLoggedIn, handleSignOut }) {
     <div>
       <div className="settings-container">
         <Link onClick={handleSignOut}>Your Profile</Link>
-
         <Link onClick={handleSignOut}>Sign Out</Link>
       </div>
     </div>

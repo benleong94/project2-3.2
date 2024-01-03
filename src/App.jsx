@@ -21,6 +21,7 @@ function App() {
   const [profiles, setProfiles] = useState([]);
   const [currentProfile, setCurrentProfile] = useState({});
   const [roomieProfiles, setRoomieProfiles] = useState([]);
+  const [conversations, setConversations] = useState([]); 
 
   const navigate = useNavigate();
 
