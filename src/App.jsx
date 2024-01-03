@@ -13,6 +13,7 @@ import { signOut } from "firebase/auth";
 import { onChildAdded, onChildChanged, ref } from "firebase/database";
 import RoomieDetails from "./Components/RoomieDetails";
 import LoginErrorPage from "./Components/LoginErrorPage";
+import IndividualChat from "./Components/IndividualChat";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -106,6 +107,7 @@ function App() {
         />
 
         <Route path="/loginerror" element={<LoginErrorPage />} />
+        <Route path="/chatroom" element={<IndividualChat />} />
       </Routes>
     </div>
   );
