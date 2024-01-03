@@ -12,7 +12,10 @@ import { database, auth } from "./firebase";
 import { signOut } from "firebase/auth";
 import { onChildAdded, onChildChanged, ref } from "firebase/database";
 import RoomieDetails from "./Components/RoomieDetails";
-import LoginErrorPage from "./Components/LoginErrorPage";
+
+import ProfilePage from "./Components/ProfilePage";
+import ErrorPage from "./Components/ErrorPage";
+
 import IndividualChat from "./Components/IndividualChat";
 
 function App() {
@@ -44,7 +47,7 @@ function App() {
     profiles.map((profile) => {
       profile.key === user.uid ? setCurrentProfile(profile) : null;
     });
-  }, [isLoggedIn]);
+  }, [user]);
 
   useEffect(() => {
     let profilesForDisplay = profiles.filter(
@@ -65,12 +68,12 @@ function App() {
   return (
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
-      {Object.keys(currentProfile).length !== 0 ? (
+      {/* {Object.keys(currentProfile).length !== 0 ? (
         <div className="greeting-user">
           {" "}
           Welcome, {currentProfile.val.name}!
         </div>
-      ) : null}
+      ) : null} */}
       <Routes>
         <Route
           path="/"
@@ -98,7 +101,11 @@ function App() {
         <Route
           path="/settings"
           element={
-            <Settings isLoggedIn={isLoggedIn} handleSignOut={handleSignOut} />
+            <Settings
+              isLoggedIn={isLoggedIn}
+              handleSignOut={handleSignOut}
+              user={user}
+            />
           }
         />
         <Route
@@ -106,8 +113,20 @@ function App() {
           element={<InputProfile user={user} setIsLoggedIn={setIsLoggedIn} />}
         />
 
-        <Route path="/loginerror" element={<LoginErrorPage />} />
+        <Route
+          path="/profilepage"
+          element={
+            <ProfilePage
+              user={user}
+              auth={auth}
+              currentProfile={currentProfile}
+            />
+          }
+        />
+
+        <Route path="*" element={<ErrorPage />} />
         <Route path="/chatroom" element={<IndividualChat />} />
+
       </Routes>
     </div>
   );
