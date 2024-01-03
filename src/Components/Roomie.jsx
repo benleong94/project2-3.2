@@ -91,14 +91,11 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
 
   const createConversation = (key1, key2) => {
     set(ref(database, "conversations/" + key1 + "-" + key2), {
-      message1
+      message: ""
     })
-      .then(() => {
-        console.log("conversation created!");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    .then(() => {
+      console.log("conversation created!");
+    })
   }
 
   return (
