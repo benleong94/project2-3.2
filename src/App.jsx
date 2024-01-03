@@ -18,6 +18,7 @@ import ErrorPage from "./Components/ErrorPage";
 
 import IndividualChat from "./Components/IndividualChat";
 
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
@@ -125,6 +126,7 @@ function App() {
         />
 
         <Route path="*" element={<ErrorPage />} />
+
         <Route path="/chatroom" element={<IndividualChat />} />
 
       </Routes>
