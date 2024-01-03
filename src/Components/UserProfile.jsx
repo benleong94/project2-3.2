@@ -1,4 +1,5 @@
-function UserProfile ({ profile }) {
+function UserProfile({ profile }) {
+  //showing different users
 
   return (
     <div className="user-profile">
@@ -6,6 +7,6 @@ function UserProfile ({ profile }) {
       <img src={profile.val.url} alt="" width="150px" height="100px"></img>
     </div>
   );
-};
+}
 
 export default UserProfile;

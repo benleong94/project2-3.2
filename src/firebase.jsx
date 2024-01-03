@@ -2,7 +2,10 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getStorage } from "firebase/storage";
-import { getAuth } from "firebase/auth"
+import { getAuth } from "firebase/auth";
+
+//Dana: I'm trying out using the firebase-admin SDK. If this breaks everything just remove it and lmk
+//import { initializeApp as adminInitializeApp } from "firebase-admin/app";
 
 // TODO: Replace with your app's Firebase project configuration
 const firebaseConfig = {
@@ -20,4 +23,4 @@ const firebaseApp = initializeApp(firebaseConfig);
 // Get a reference to the database service and export the reference for other modules
 export const database = getDatabase(firebaseApp);
 export const storage = getStorage(firebaseApp);
-export const auth = getAuth(firebaseApp)
+export const auth = getAuth(firebaseApp);

@@ -33,7 +33,7 @@ function LoginSignup({ setIsLoggedIn, setUser }) {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/loginerror");
+        navigate("*");
       });
   };
 
@@ -42,11 +42,12 @@ function LoginSignup({ setIsLoggedIn, setUser }) {
       .then((userCredential) => {
         setIsLoggedIn(true);
         setUser(userCredential.user);
+
         navigate("/find-roomie");
       })
       .catch((err) => {
         console.log(err);
-        navigate("/loginerror");
+        navigate("*");
       });
   };
 
