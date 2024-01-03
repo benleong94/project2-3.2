@@ -12,9 +12,12 @@ import { database, auth } from "./firebase";
 import { signOut } from "firebase/auth";
 import { onChildAdded, onChildChanged, ref } from "firebase/database";
 import RoomieDetails from "./Components/RoomieDetails";
-import LoginErrorPage from "./Components/ErrorPage";
+
 import ProfilePage from "./Components/ProfilePage";
 import ErrorPage from "./Components/ErrorPage";
+
+import IndividualChat from "./Components/IndividualChat";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -123,6 +126,9 @@ function App() {
         />
 
         <Route path="*" element={<ErrorPage />} />
+
+        <Route path="/chatroom" element={<IndividualChat />} />
+
       </Routes>
     </div>
   );
