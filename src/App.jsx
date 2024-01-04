@@ -24,7 +24,7 @@ function App() {
   const [currentProfile, setCurrentProfile] = useState({});
   const [roomieProfiles, setRoomieProfiles] = useState([]);
   const [conversations, setConversations] = useState([]); 
-  const [currConversations, setCurrConversations] = useState([]); 
+  const [currConversations, setCurrConversations] = useState(new Set()); 
 
   const navigate = useNavigate();
 
@@ -69,6 +69,14 @@ function App() {
     setRoomieProfiles(profilesForDisplay);
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    const filteredConversations = conversations.filter(conversation => {
+      const participants = conversation.key.split('-');
+      return participants.includes(user.uid);
+    });
+    setCurrConversations(new Set(filteredConversations));
+  }, [currentProfile, conversations]); 
+
   const handleSignOut = () => {
     signOut(auth).then(() => {
       setIsLoggedIn(false);
@@ -81,12 +89,6 @@ function App() {
   return (
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
-      {/* {Object.keys(currentProfile).length !== 0 ? (
-        <div className="greeting-user">
-          {" "}
-          Welcome, {currentProfile.val.name}!
-        </div>
-      ) : null} */}
       <Routes>
         <Route
           path="/"
@@ -109,7 +111,7 @@ function App() {
         <Route path="/find-property" element={<Property />} />
         <Route
           path="/chat"
-          element={<Chat currentProfile={currentProfile} profiles={profiles} />}
+          element={<Chat currentProfile={currentProfile} profiles={profiles} currConversations={currConversations}/>}
         />
         <Route
           path="/settings"
@@ -137,9 +139,7 @@ function App() {
           }
         />
         <Route path="*" element={<ErrorPage />} />
-        <Route path="/chatroom" element={<IndividualChat />} />
-
-      </Routes>
+        </Routes>
     </div>
   );
 }

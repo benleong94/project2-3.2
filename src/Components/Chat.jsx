@@ -1,37 +1,59 @@
 import { useEffect, useState } from "react";
 import IndividualChat from "./IndividualChat";
-import { Link } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
 
-function Chat({currentProfile, profiles}) {
-  const [matchedNames, setMatchedNames] = useState([])
+function Chat({ currentProfile, profiles, currConversations }) {
+  const [matchedProfiles, setMatchedProfiles] = useState([]);
+  const [currentChatKey, setCurrentChatKey] = useState(null);
+  const [chatPerson, setChatPerson] = useState(null);
+  const [currentChat, setCurrentChat] = useState(null);
+
+  const handleChatClick = (chatKey, userName) => {
+    let currConvoArray = Array.from(currConversations).find(
+      (conversation) => conversation.key === chatKey
+    );
+    setCurrentChat(currConvoArray);
+    setChatPerson(userName);
+  };
 
   useEffect(() => {
     let names = [];
-    currentProfile.val.peopleMatched.map((matchedKeys) => {
-      console.log(matchedKeys)
-      profiles.map((profile) => {
-        if(profile.key === matchedKeys)  {
-          names.push(profile.val.name)
+    currentProfile.val.peopleMatched.forEach((matchedKeys) => {
+      profiles.forEach((profile) => {
+        if (profile.key === matchedKeys) {
+          let userProfile = { [profile.val.name]: profile.key };
+          names.push(userProfile);
         }
-      })
-    })
-    setMatchedNames(names)
-  }, [profiles])
+      });
+    });
+    setMatchedProfiles(names);
+  }, [profiles]);
 
   return (
     <>
       <div className="matched-container">
         <h1 className="text-4xl">Matched Friends: </h1>
-        {matchedNames.map((name, index) => (
-            <div className="text-xl mt-4" key={index}>
-              <Link to="/chatroom">
-              {name}          
-              </Link>
+        {matchedProfiles.map((userProfile, index) => {
+          const userName = Object.keys(userProfile)[0];
+          const userKey = userProfile[userName];
+          const chatKey = currentProfile.key + "-" + userKey;
+          return (
+            <div
+              key={index}
+              onClick={() => handleChatClick(chatKey, userName)}
+              className="cursor-pointer my-2"
+            >
+              {userName}
             </div>
-        ))}
+          );
+        })}
       </div>
+      {console.log(currentChat)}
+      {currentChat ? (
+        <IndividualChat chat={currentChat} chatPerson={chatPerson} />
+      ) : null}
     </>
   );
 }
 
-export default Chat
+export default Chat;
