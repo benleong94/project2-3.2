@@ -12,10 +12,8 @@ import { database, auth } from "./firebase";
 import { signOut } from "firebase/auth";
 import { onChildAdded, onChildChanged, ref } from "firebase/database";
 import RoomieDetails from "./Components/RoomieDetails";
-
 import ProfilePage from "./Components/ProfilePage";
 import ErrorPage from "./Components/ErrorPage";
-
 import IndividualChat from "./Components/IndividualChat";
 
 
@@ -25,11 +23,15 @@ function App() {
   const [profiles, setProfiles] = useState([]);
   const [currentProfile, setCurrentProfile] = useState({});
   const [roomieProfiles, setRoomieProfiles] = useState([]);
+  const [conversations, setConversations] = useState([]); 
+  const [currConversations, setCurrConversations] = useState([]); 
 
   const navigate = useNavigate();
 
   const DB_PROFILES_KEY = "profiles";
+  const DB_CONVO_KEY = "conversations";
   const profilesRef = ref(database, DB_PROFILES_KEY);
+  const conversationsRef = ref(database, DB_CONVO_KEY);
 
   useEffect(() => {
     onChildAdded(profilesRef, (data) => {
@@ -37,6 +39,16 @@ function App() {
     });
     onChildChanged(profilesRef, (data) =>
       setProfiles((prev) =>
+        prev.map((item) =>
+          item.key === data.key ? { key: data.key, val: data.val() } : item
+        )
+      )
+    );
+    onChildAdded(conversationsRef, (data) => {
+      setConversations((prev) => [...prev, { key: data.key, val: data.val() }]);
+    });
+    onChildChanged(conversationsRef, (data) =>
+      setConversations((prev) =>
         prev.map((item) =>
           item.key === data.key ? { key: data.key, val: data.val() } : item
         )
@@ -124,9 +136,7 @@ function App() {
             />
           }
         />
-
         <Route path="*" element={<ErrorPage />} />
-
         <Route path="/chatroom" element={<IndividualChat />} />
 
       </Routes>

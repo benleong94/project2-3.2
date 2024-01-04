@@ -30,7 +30,6 @@ function Chat({currentProfile, profiles}) {
             </div>
         ))}
       </div>
-      <IndividualChat />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { database } from "../firebase";
-import { ref, update } from "firebase/database";
+import { set, ref, update } from "firebase/database";
 import { Link } from "react-router-dom";
 import UserProfile from './UserProfile';
 import RoomieDetails from './RoomieDetails';
@@ -9,7 +9,9 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const DB_PROFILES_KEY = "profiles";
+  const DB_CONVO_KEY = "conversations";
   const profilesRef = ref(database, DB_PROFILES_KEY);
+  const conversationsRef = ref(database, DB_CONVO_KEY)
 
   const handleSwipe = (direction) => {
     if (direction === "right") {
@@ -44,7 +46,7 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
     //Show Liked Button (Modal)
   }
 
-  //Check matching profiles
+  //Check matching profiles - can change to App.jsx? 
   useEffect(() => {
     if (Object.keys(currentProfile).length !== 0) {
     let myProfileLikes = Object.values(currentProfile.val.peopleLiked); 
@@ -79,18 +81,31 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
               url: currentProfile.val.url
             };
             update(profilesRef, updates);
+            createConversation(currentProfile.key, profile.key)
           }
         }
       })
     }); 
     } 
-  }, [currentProfile])
+  }, [profiles])
+
+  const createConversation = (key1, key2) => {
+    const conversationId = [key1, key2].sort().join("-");
+    set(ref(database, "conversations/" + conversationId), {
+      message: "",
+    })
+    .then(() => {
+      console.log("Conversation created with ID: " + conversationId);
+    })
+    .catch((error) => {
+      console.error("Error creating conversation: ", error);
+    });
+  }
 
   return (
     <div>
       {roomieProfiles.length > 0 ? (
         <div className='roomie-wrapper'>
-          {console.log(roomieProfiles)}
           <div className="profile-wrapper">
             <Link to="/roomie-details">
               <UserProfile profile={roomieProfiles[currentIndex]} />
