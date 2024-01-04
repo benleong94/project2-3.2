@@ -7,6 +7,7 @@ import RoomieDetails from './RoomieDetails';
 
 function Roomie({user, profiles, currentProfile, roomieProfiles}) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [createConvo, setCreateConvo] = useState(false);
 
   const DB_PROFILES_KEY = "profiles";
   const DB_CONVO_KEY = "conversations";
@@ -95,10 +96,10 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
       message: "",
     })
     .then(() => {
-      console.log("Conversation created with ID: " + conversationId);
+      console.log("Conversation ID: " + conversationId);
     })
     .catch((error) => {
-      console.error("Error creating conversation: ", error);
+      console.error("Error: ", error);
     });
   }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 
-function IndividualChat() {
+function IndividualChat({chat, chatPerson}) {
     const [messages, setMessages] = useState([]);
     const [currentMessage, setCurrentMessage] = useState("");
 
@@ -12,6 +12,7 @@ function IndividualChat() {
 
     return (
       <div className="flex flex-col max-w-md mx-auto my-5 shadow-lg h-96">
+        <div>Chatting With: {chatPerson} {chat.key}</div>
         <div
           className="flex-grow overflow-auto p-4 space-y-4 bg-gray-100"
           style={{ maxHeight: "400px" }}
