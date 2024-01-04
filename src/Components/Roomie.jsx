@@ -90,12 +90,16 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
   }, [profiles])
 
   const createConversation = (key1, key2) => {
-    set(ref(database, "conversations/" + key1 + "-" + key2), {
-      message: ""
+    const conversationId = [key1, key2].sort().join("-");
+    set(ref(database, "conversations/" + conversationId), {
+      message: "",
     })
     .then(() => {
-      console.log("conversation created!");
+      console.log("Conversation created with ID: " + conversationId);
     })
+    .catch((error) => {
+      console.error("Error creating conversation: ", error);
+    });
   }
 
   return (
