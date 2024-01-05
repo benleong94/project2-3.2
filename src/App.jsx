@@ -4,6 +4,7 @@ import Roomie from "./Components/Roomie";
 import Property from "./Components/Property";
 import Chat from "./Components/Chat";
 import LoginSignup from "./Components/LoginSignup";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Settings from "./Components/Settings";
 import { useState, useEffect } from "react";
@@ -14,7 +15,6 @@ import { onChildAdded, onChildChanged, ref } from "firebase/database";
 import RoomieDetails from "./Components/RoomieDetails";
 import ProfilePage from "./Components/ProfilePage";
 import ErrorPage from "./Components/ErrorPage";
-import IndividualChat from "./Components/IndividualChat";
 
 
 function App() {
