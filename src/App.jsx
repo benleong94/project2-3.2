@@ -24,7 +24,7 @@ function App() {
   const [currentProfile, setCurrentProfile] = useState({});
   const [roomieProfiles, setRoomieProfiles] = useState([]);
   const [conversations, setConversations] = useState([]); 
-  const [currConversations, setCurrConversations] = useState(new Set()); 
+  const [currConversations, setCurrConversations] = useState(null); 
 
   const navigate = useNavigate();
 
@@ -74,7 +74,7 @@ function App() {
       const participants = conversation.key.split('-');
       return participants.includes(user.uid);
     });
-    setCurrConversations(new Set(filteredConversations));
+    setCurrConversations(filteredConversations);
   }, [currentProfile, conversations]); 
 
   const handleSignOut = () => {
