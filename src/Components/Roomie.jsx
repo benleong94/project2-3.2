@@ -92,8 +92,13 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
 
   const createConversation = (key1, key2) => {
     const conversationId = [key1, key2].sort().join("-");
-    set(ref(database, "conversations/" + conversationId), {
-      message: "",
+    set(ref(database, "conversations/" + conversationId), 
+    {"messageId0": 
+      {
+        "sender": "No Name",
+        "text": "text",
+        "timestamp": new Date()
+      }
     })
     .then(() => {
       console.log("Conversation ID: " + conversationId);

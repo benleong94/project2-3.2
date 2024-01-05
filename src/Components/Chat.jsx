@@ -4,12 +4,11 @@ import { Link, Routes, Route } from "react-router-dom";
 
 function Chat({ currentProfile, profiles, currConversations }) {
   const [matchedProfiles, setMatchedProfiles] = useState([]);
-  const [currentChatKey, setCurrentChatKey] = useState(null);
   const [chatPerson, setChatPerson] = useState(null);
   const [currentChat, setCurrentChat] = useState(null);
 
   const handleChatClick = (chatKey, userName) => {
-    let currConvoArray = Array.from(currConversations).find(
+    let currConvoArray = currConversations.find(
       (conversation) => conversation.key === chatKey
     );
     setCurrentChat(currConvoArray);
@@ -36,7 +35,7 @@ function Chat({ currentProfile, profiles, currConversations }) {
         {matchedProfiles.map((userProfile, index) => {
           const userName = Object.keys(userProfile)[0];
           const userKey = userProfile[userName];
-          const chatKey = currentProfile.key + "-" + userKey;
+          const chatKey = [currentProfile.key, userKey].sort().join("-");
           return (
             <div
               key={index}
@@ -48,9 +47,8 @@ function Chat({ currentProfile, profiles, currConversations }) {
           );
         })}
       </div>
-      {console.log(currentChat)}
       {currentChat ? (
-        <IndividualChat chat={currentChat} chatPerson={chatPerson} />
+        <IndividualChat chat={currentChat} chatPerson={chatPerson} currentProfile={currentProfile} />
       ) : null}
     </>
   );
