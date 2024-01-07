@@ -30,8 +30,10 @@ function Chat({ currentProfile, profiles, currConversations }) {
 
   return (
     <>
-      <div className="matched-container">
-        <h1 className="text-4xl">Matched Friends: </h1>
+      <div className="bg-gray-300 p-6 rounded-lg shadow-md">
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">
+          Matched Friends:{" "}
+        </h1>
         {matchedProfiles.map((userProfile, index) => {
           const userName = Object.keys(userProfile)[0];
           const userKey = userProfile[userName];
@@ -40,15 +42,19 @@ function Chat({ currentProfile, profiles, currConversations }) {
             <div
               key={index}
               onClick={() => handleChatClick(chatKey, userName)}
-              className="cursor-pointer my-2"
+              className="cursor-pointer p-2 my-2 bg-white rounded-md hover:bg-gray-200 transition duration-300"
             >
-              {userName}
+              <p className="text-lg text-gray-700">{userName}</p>
             </div>
           );
         })}
       </div>
       {currentChat ? (
-        <IndividualChat chat={currentChat} chatPerson={chatPerson} currentProfile={currentProfile} />
+        <IndividualChat
+          chat={currentChat}
+          chatPerson={chatPerson}
+          currentProfile={currentProfile}
+        />
       ) : null}
     </>
   );

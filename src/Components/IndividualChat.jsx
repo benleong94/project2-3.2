@@ -5,10 +5,20 @@ import { ref, set, onChildAdded, onChildChanged } from "firebase/database";
 
 function IndividualChat({chat, chatPerson, currentProfile}) {
     const [messages, setMessages] = useState([]);
+    const [displayedMessages, setDisplayedMessages] = useState([]);
     const [currentMessage, setCurrentMessage] = useState("");
+    const DB_CONVO_KEY = "conversations";
+    const conversationsRef = ref(database, DB_CONVO_KEY + "/" + chat.key);
+
+    useEffect(() => {
+      onChildAdded(conversationsRef, (data) => {
+        setMessages((prev) => [...prev, { key: data.key, val: data.val() }]);
+      });
+    }, []);
 
     const sendMessage = () => {
-      const lastMessageID = messages[messages.length-1][0]
+      console.log(messages)
+      const lastMessageID = messages[messages.length-1].key
       const messageWord = lastMessageID.slice(0,-1)
       const newLastChar = Number(lastMessageID.charAt(lastMessageID.length - 1)) + 1;
       const newMessageID = messageWord + newLastChar
@@ -25,25 +35,25 @@ function IndividualChat({chat, chatPerson, currentProfile}) {
     };
 
     useEffect(() => {
-      let messageArray = Object.entries(chat.val);
-      console.log(messageArray)
-      setMessages(messageArray)
-    },[chat])
+      if (messages.length > 0) {
+        let messageArray = Object.entries(messages);
+        console.log(messageArray);
+        setDisplayedMessages(messageArray);
+      }
+    },[messages])
 
     return (
       <div className="flex flex-col max-w-md mx-auto my-5 shadow-lg h-96">
-        <div>
-          Chatting With: {chatPerson} {chat.key}
-        </div>
+        <div>Chatting With: {chatPerson}</div>
         <div
           className="flex-grow overflow-auto p-4 space-y-4 bg-gray-100"
           style={{ maxHeight: "400px" }}
         >
-          {messages.map((msg, index) => (
+          {displayedMessages.map((msg, index) => (
             <div key={index}>
-              <p>{msg[1].sender}</p>
+              <p>{msg[1].val.sender}</p>
               <p className="break-words p-2 bg-white rounded shadow">
-                {msg[1].text}
+                {msg[1].val.text}
               </p>
             </div>
           ))}

@@ -49,7 +49,7 @@ function Property() {
       <div className="text-2xl font-bold my-4 text-gray-700">
         Available Properties:{" "}
       </div>
-      <div className="max-h-[50rem] overflow-y-auto">
+      <div className="max-h-[45rem] overflow-y-auto">
         {property.map((property) => (
           <PropertyCard property={property} />
         ))}
