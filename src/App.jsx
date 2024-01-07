@@ -64,7 +64,7 @@ function App() {
 
   useEffect(() => {
     let profilesForDisplay = profiles.filter(
-      (profile) => profile.key !== user.uid
+      (profile) => (profile.key !== user.uid) 
     );
     setRoomieProfiles(profilesForDisplay);
   }, [isLoggedIn]);
