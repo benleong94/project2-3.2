@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ref, set } from "firebase/database";
+import { database, storage } from "../firebase";
+import { ref, set } from "firebase/database"; 
 import { useNavigate } from "react-router-dom";
 import {
   ref as storageRef,
@@ -8,14 +9,9 @@ import {
 } from "firebase/storage";
 
 const DB_PROFILES_KEY = "profiles";
+const DB_PROFILE_IMAGES_KEY = "profile_images"; 
 
-function InputProfile({
-  user,
-  setIsLoggedIn,
-  storage,
-  DB_PROFILE_IMAGES_KEY,
-  database,
-}) {
+function InputProfile({user, setIsLoggedIn}) {
   const [profile, setProfile] = useState({
     name: "",
     age: "",
@@ -23,7 +19,7 @@ function InputProfile({
     hobbies: "",
     smokingPreference: "",
     petFriendly: false,
-    url: "",
+    url: ""
   });
   const [fileInputFile, setFileInputFile] = useState(null);
   const navigate = useNavigate();
@@ -31,9 +27,9 @@ function InputProfile({
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setProfile((prevProfile) => ({
+    setProfile(prevProfile => ({
       ...prevProfile,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
@@ -43,7 +39,7 @@ function InputProfile({
       storage,
       DB_PROFILE_IMAGES_KEY + "/" + fileInputFile.name
     );
-    try {
+    try{
       setIsLoggedIn(true);
       uploadBytes(storageRefInstance, fileInputFile).then(() => {
         getDownloadURL(storageRefInstance).then((url) => {
@@ -56,13 +52,13 @@ function InputProfile({
             petFriendly: profile.petFriendly,
             url: url,
             peopleLiked: [""],
-            peopleMatched: [""],
+            peopleMatched: [""]
           });
         });
       });
       navigate("/find-roomie");
     } catch (err) {
-      console.log(err);
+      console.log(err); 
     }
   };
 
@@ -138,4 +134,4 @@ function InputProfile({
   );
 }
 
-export default InputProfile;
+export default InputProfile
