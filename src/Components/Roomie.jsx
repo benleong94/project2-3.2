@@ -158,7 +158,7 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
         </Modal.Header>
         <Button
           onClick={handleClose}
-          style={{ backgroundColor: "#333", color: "white" }}
+          style={{ backgroundColor: "white", color: "black" }}
         >
           Close
         </Button>
