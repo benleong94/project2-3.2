@@ -1,54 +1,153 @@
 import { Link } from "react-router-dom";
-import { auth } from "../firebase";
-import { getAuth, updateEmail } from "firebase/auth";
+import { auth, database } from "../firebase";
+
+import {
+  onChildAdded,
+  onChildChanged,
+  ref as databaseRef,
+  update,
+} from "firebase/database";
+import { getAuth, updateEmail, updateProfile } from "firebase/auth";
 import { useEffect } from "react";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
-function ProfilePage({ user, currentProfile }) {
-  //get what data you can from the auth
-  console.log("user passed into ProfilePage: ", user);
+function ProfilePage({
+  user,
+  currentProfile,
+  setCurrentProfile,
+  DB_PROFILES_KEY,
+  profilesRef,
+}) {
+  //This useEffect adds the child event listeners so that it will
+  //auto update the profiles when they're changed.
+  //need to look through and modify.
+
+  // useEffect(() => {
+  //   onChildChanged(profilesRef, (data) =>
+  //     setProfiles((prev) =>
+  //       prev.map((item) =>
+  //         item.key === data.key ? { key: data.key, val: data.val() } : item
+  //       )
+  //     )
+  //   ), []})
+
   const auth = getAuth();
-
-  console.log("current profile: ", currentProfile);
-  console.log("user: ", user);
-  console.log("auth: ", auth);
-  console.log("user.uid: ", user.uid);
 
   const changeEmail = () => {
     updateEmail();
   };
 
-  const handleProfile = () => {};
+  const handleProfileInput = (e) => {
+    const current_target_name = e.target.name;
 
-  const updatePhoto = () => {};
+    setCurrentProfile((prevProfile) => ({
+      ...prevProfile,
+      val: {
+        ...prevProfile.val,
+        [current_target_name]: e.target.value,
+      },
+    }));
+  };
+
+  //Figure out how to set to the database first.
+  const writeData = (e) => {
+    e.preventDefault();
+
+    console.log("e.target.name: ", e.target.name);
+    console.log("e.target.value: ", e.target.value);
+
+    update(profilesRef, {
+      [e.target.name]: e.target.value,
+    });
+    //profilesRef was passed in as a prop.
+
+    //const messageListRef = databaseRef(database, DB_MESSAGES_KEY);
+    //const newMessageRef = push(messageListRef);
+  };
+
+  const writePhotoData = () => {
+    e.preventDefault();
+
+    const storageRefInstance = storageRef(
+      storage,
+      DB_STORAGE_KEY + fileInputFile.name
+    );
+
+    uploadBytes(storageRefInstance, fileInputFile).then((v) => {
+      //console.log(v);
+      getDownloadURL(storageRefInstance).then((url) => {
+        //Once we get our url back from the storage, we send it off to the database)
+
+        //Instead of setting (creating a new reference)
+        //I want to update the url already in the database.
+        //use update() ?
+
+        //if I can put in all the same data, do I even need to get the key to only change
+        //specifically the url?
+
+        set(profilesRef, { url: url });
+      });
+    });
+
+    //This function is just for uploading the changed picture to firebase and
+  };
+
+  //This is for doing stuff after the database has been changed.
+  useEffect(() => {
+    onChildChanged(
+      profilesRef,
+      (data) => console.log("data: ", data)
+      // setProfiles((prev) =>
+      //   prev.map((item) =>
+      //     item.key === data.key ? { key: data.key, val: data.val() } : item
+    );
+  }, []);
+
+  useEffect(() => {
+    console.log("currentProfile: ", currentProfile);
+  }, [currentProfile]);
 
   return (
     <div className="settings-container">
       <h1>Profile Page</h1>
 
       <div>
-        <h1>Profile Picture:</h1>
+        <h1>Profile Picture</h1>
         <img src={currentProfile.val.url} width="100px" height="100px" />
         <form>
           {" "}
           <input type="file" />
-          <button type="submit">Upload new photo!</button>
+          <button onClick={writePhotoData}>Upload new photo!</button>
         </form>
       </div>
 
       <div>
-        <h1>Name:</h1>
+        <h2>Name:</h2>
         <form>
           <input
+            name="name"
             type="text"
             value={currentProfile.val.name}
-            onChange={handleProfile}
+            onChange={handleProfileInput}
           />
+          <button type="submit" onClick={writeData}>
+            Submit name!
+          </button>
         </form>
       </div>
 
       <div>
-        <h1>Age:</h1>
-        <input type="number" value={currentProfile.val.age} />
+        <h2>Age:</h2>
+        <input
+          name="age"
+          type="number"
+          value={currentProfile.val.age}
+          onChange={handleProfileInput}
+        />
       </div>
 
       <div>
@@ -57,12 +156,12 @@ function ProfilePage({ user, currentProfile }) {
       </div>
 
       <div>
-        <h1>Hobbies:</h1>
+        <h2>Hobbies:</h2>
         <input type="text" value={currentProfile.val.hobbies} />
       </div>
 
       <div>
-        <h1>Pet Friendly?</h1>
+        <h2>Pet Friendly?</h2>
         <input type="checkbox" value={currentProfile.val.petFriendly} />
       </div>
     </div>
@@ -76,3 +175,18 @@ export default ProfilePage;
       how to edit it //get the rest of the data from the database //get key of
       user and then update the specific values of a user
 */
+
+/*
+
+        <input
+          id="file-input-box"
+          type="file"
+          value={props.fileInputValue}
+          onChange={(e) => {
+            props.setFileInputFile(e.target.files[0]);
+            props.setFileInputValue(e.target.value);
+          }}
+        />
+        <br />
+        <button onClick={props.writeData}>Send</button>
+        */
