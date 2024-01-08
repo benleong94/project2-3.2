@@ -8,9 +8,14 @@ import {
 import { ref, set } from "firebase/database";
 import { database } from "../firebase";
 
-function LoginSignup({ setIsLoggedIn, setUser }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function LoginSignup({
+  setIsLoggedIn,
+  setUser,
+  email,
+  setEmail,
+  password,
+  setPassword,
+}) {
   const navigate = useNavigate();
 
   const signUp = () => {
@@ -42,6 +47,11 @@ function LoginSignup({ setIsLoggedIn, setUser }) {
       .then((userCredential) => {
         setIsLoggedIn(true);
         setUser(userCredential.user);
+
+        //Try to figure out a way to pass the credentials from here to the Settings Page
+        //if the history of the person coming here is the Setting Page,
+        //then return to the previous page (aka the Setting Page.)
+        //Else, navigate to "/find-roomie".
 
         navigate("/find-roomie");
       })
