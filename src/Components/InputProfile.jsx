@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { database, storage } from "../firebase";
-import { ref, set } from "firebase/database"; 
+import { ref, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import {
   ref as storageRef,
@@ -9,9 +8,14 @@ import {
 } from "firebase/storage";
 
 const DB_PROFILES_KEY = "profiles";
-const DB_PROFILE_IMAGES_KEY = "profile_images"; 
 
-function InputProfile({user, setIsLoggedIn}) {
+function InputProfile({
+  user,
+  setIsLoggedIn,
+  storage,
+  DB_PROFILE_IMAGES_KEY,
+  database,
+}) {
   const [profile, setProfile] = useState({
     name: "",
     age: "",
@@ -19,7 +23,7 @@ function InputProfile({user, setIsLoggedIn}) {
     hobbies: "",
     smokingPreference: "",
     petFriendly: false,
-    url: ""
+    url: "",
   });
   const [fileInputFile, setFileInputFile] = useState(null);
   const navigate = useNavigate();
@@ -27,9 +31,9 @@ function InputProfile({user, setIsLoggedIn}) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setProfile(prevProfile => ({
+    setProfile((prevProfile) => ({
       ...prevProfile,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -39,7 +43,7 @@ function InputProfile({user, setIsLoggedIn}) {
       storage,
       DB_PROFILE_IMAGES_KEY + "/" + fileInputFile.name
     );
-    try{
+    try {
       setIsLoggedIn(true);
       uploadBytes(storageRefInstance, fileInputFile).then(() => {
         getDownloadURL(storageRefInstance).then((url) => {
@@ -52,13 +56,13 @@ function InputProfile({user, setIsLoggedIn}) {
             petFriendly: profile.petFriendly,
             url: url,
             peopleLiked: [""],
-            peopleMatched: [""]
+            peopleMatched: [""],
           });
         });
       });
       navigate("/find-roomie");
     } catch (err) {
-      console.log(err); 
+      console.log(err);
     }
   };
 
@@ -134,4 +138,4 @@ function InputProfile({user, setIsLoggedIn}) {
   );
 }
 
-export default InputProfile
+export default InputProfile;
