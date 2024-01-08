@@ -12,11 +12,11 @@ import Roomie from "./Components/Roomie";
 import Property from "./Components/Property";
 import Chat from "./Components/Chat";
 import LoginSignup from "./Components/LoginSignup";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Settings from "./Components/Settings";
 import RoomieDetails from "./Components/RoomieDetails";
 import ProfilePage from "./Components/ProfilePage";
 import ErrorPage from "./Components/ErrorPage";
-import IndividualChat from "./Components/IndividualChat";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,12 +24,12 @@ function App() {
   const [profiles, setProfiles] = useState([]);
   const [currentProfile, setCurrentProfile] = useState({});
   const [roomieProfiles, setRoomieProfiles] = useState([]);
-  const [conversations, setConversations] = useState([]);
-  const [currConversations, setCurrConversations] = useState([]);
-
   //lifted email and password states up so that the Settings component can also get access to it.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [conversations, setConversations] = useState([]); 
+  const [currConversations, setCurrConversations] = useState(null); 
+
 
   const navigate = useNavigate();
 
@@ -74,10 +74,18 @@ function App() {
 
   useEffect(() => {
     let profilesForDisplay = profiles.filter(
-      (profile) => profile.key !== user.uid
+      (profile) => (profile.key !== user.uid) 
     );
     setRoomieProfiles(profilesForDisplay);
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    const filteredConversations = conversations.filter(conversation => {
+      const participants = conversation.key.split('-');
+      return participants.includes(user.uid);
+    });
+    setCurrConversations(filteredConversations);
+  }, [currentProfile, conversations]); 
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -91,12 +99,6 @@ function App() {
   return (
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
-      {/* {Object.keys(currentProfile).length !== 0 ? (
-        <div className="greeting-user">
-          {" "}
-          Welcome, {currentProfile.val.name}!
-        </div>
-      ) : null} */}
       <Routes>
         <Route
           path="/"
@@ -126,7 +128,7 @@ function App() {
         <Route path="/find-property" element={<Property />} />
         <Route
           path="/chat"
-          element={<Chat currentProfile={currentProfile} profiles={profiles} />}
+          element={<Chat currentProfile={currentProfile} profiles={profiles} currConversations={currConversations}/>}
         />
         <Route
           path="/settings"
@@ -173,6 +175,7 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
         <Route path="/chatroom" element={<IndividualChat />} />
       </Routes>
+
     </div>
   );
 }
