@@ -4,14 +4,16 @@ import { set, ref, update } from "firebase/database";
 import { Link } from "react-router-dom";
 import UserProfile from './UserProfile';
 import RoomieDetails from './RoomieDetails';
+import { Modal, Button } from "react-bootstrap";
 
 function Roomie({user, profiles, currentProfile, roomieProfiles}) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [displayedProfiles, setDisplayedProfiles] = useState(null)
+  const [showDetails, setShowDetails] = useState(false)
+  const [showLikeModal, setShowLikeModal] = useState(false);
 
   const DB_PROFILES_KEY = "profiles";
-  const DB_CONVO_KEY = "conversations";
   const profilesRef = ref(database, DB_PROFILES_KEY);
-  const conversationsRef = ref(database, DB_CONVO_KEY)
 
   const handleSwipe = (direction) => {
     if (direction === "right") {
@@ -43,8 +45,19 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
       url: userProfile.val.url
     };
     update(profilesRef, updates);
-    //Show Liked Button (Modal)
+    setShowLikeModal(true)
   }
+
+  const handleClose = () => {
+    setShowLikeModal(false);
+  };
+
+  useEffect(() => {
+    // let profilesForDisplay = profiles.filter(
+    //   (profile) => profile.key !== currentProfile.val.peopleMatched
+    // );
+    // setDisplayedProfiles(profilesForDisplay);
+  }, [profiles])
 
   //Check matching profiles - can change to App.jsx? 
   useEffect(() => {
@@ -91,33 +104,65 @@ function Roomie({user, profiles, currentProfile, roomieProfiles}) {
 
   const createConversation = (key1, key2) => {
     const conversationId = [key1, key2].sort().join("-");
-    set(ref(database, "conversations/" + conversationId), {
-      message: "",
+    set(ref(database, "conversations/" + conversationId), 
+    {"messageId0": 
+      {
+        "sender": "No Name",
+        "text": "text",
+        "timestamp": new Date()
+      }
     })
     .then(() => {
-      console.log("Conversation created with ID: " + conversationId);
+      console.log("Conversation ID: " + conversationId);
     })
     .catch((error) => {
-      console.error("Error creating conversation: ", error);
+      console.error("Error: ", error);
     });
   }
 
   return (
-    <div>
-      {roomieProfiles.length > 0 ? (
-        <div className='roomie-wrapper'>
+    <div className="flex flex-col justify-center items-center">
+      <div className="text-2xl font-bold my-4 text-gray-700">
+        View Roomies:{" "}
+      </div>
+      {showDetails == true ? (
+        <>
+          <RoomieDetails profile={roomieProfiles[currentIndex]} />
+          <button onClick={() => setShowDetails(false)}>Back</button>
+        </>
+      ) : null}
+
+      {roomieProfiles.length > 0 && showDetails == false ? (
+        <div className="roomie-wrapper">
           <div className="profile-wrapper">
-            <Link to="/roomie-details">
+            <div onClick={() => setShowDetails(true)}>
               <UserProfile profile={roomieProfiles[currentIndex]} />
-            </Link>
-            <div className='pw-buttons'>
+            </div>
+            <div className="pw-buttons">
               <button onClick={() => handleSwipe("left")}>Left</button>
-              <button onClick={() => handleSwipe("right")}>Right</button>              
+              <button onClick={() => handleSwipe("right")}>Right</button>
             </div>
           </div>
-          <button onClick={handleLike}>Like!</button>
+          <button
+            onClick={handleLike}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:scale-110"
+          >
+            Like!
+          </button>
         </div>
       ) : null}
+
+      <Modal show={showLikeModal} onHide={handleClose}>
+        <Modal.Header style={{ backgroundColor: "#333", color: "white" }}>
+          <Modal.Title>Like!</Modal.Title>
+        </Modal.Header>
+        <Button
+          onClick={handleClose}
+          style={{ backgroundColor: "white", color: "black" }}
+        >
+          Close
+        </Button>
+      </Modal>
     </div>
   );
 }

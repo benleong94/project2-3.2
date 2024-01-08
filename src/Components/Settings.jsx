@@ -67,23 +67,11 @@ function Settings({
   }, [user]);
 
   return (
-    <>
-      <Modal
-        openModal={openModal}
-        onClose={() => setOpenModal(false)}
-        setUserCredentials={setUserCredentials}
-      >
-        <p>Please sign in again to update email and password.</p>
-        <img src="../public/x.png" />
-      </Modal>
+    <div>
       <div className="settings-container">
         <div>
-          <form>
-            <h1>Email:</h1>
-            <input type="text" value={user.email} onChange={handleEmailInput} />
-
-            <button onClick={submitEmail}>Submit</button>
-          </form>
+          <h1>Email:</h1>
+          <input type="text" value={user.email} />
         </div>
 
         <div>
@@ -100,30 +88,8 @@ function Settings({
 
         <Link onClick={handleSignOut}>Sign Out</Link>
       </div>
-    </>
+    </div>
   );
 }
 
 export default Settings;
-
-//const user = auth.currentUser;
-// Try to update email. if an error is thrown, and the error is because the log in is too old,
-//prompt the user to log in again.
-//console.log("auth.currentUser: ", auth.currentUser);
-
-// reauthenticateWithCredential(user, credential)
-//   .then(() => {
-//     // User re-authenticated.
-//     //Update the user's email, now that they've been re-authenticated.
-//   })
-//   .catch((error) => {
-//     // An error ocurred
-//     // ...
-//   });
-
-// //const promptForCredentials = () => {
-//   alert("Please sign in again to edit email or password.");
-
-//   sign_in_again();
-//   //replace with a modal to make it look nice?
-// };

@@ -29,6 +29,11 @@ function ProfilePage({
   //need to look through and modify.
   const auth = getAuth();
 
+  console.log("current profile: ", currentProfile);
+  console.log("user: ", user);
+  console.log("auth: ", auth);
+  console.log("user.uid: ", user.uid);
+
   const changeEmail = () => {
     updateEmail();
   };
@@ -123,7 +128,7 @@ function ProfilePage({
       <h1>Profile Page</h1>
 
       <div>
-        <h1>Profile Picture</h1>
+        <h1>Profile Picture:</h1>
         <img src={currentProfile.val.url} width="100px" height="100px" />
         <form onSubmit={writePhotoData}>
           {" "}
@@ -137,10 +142,9 @@ function ProfilePage({
         <form onSubmit={writeData}>
           {" "}
           <input
-            name="name"
             type="text"
             value={currentProfile.val.name}
-            onChange={handleProfileInput}
+            onChange={handleProfile}
           />
           <button type="submit">Submit name!</button>
         </form>
