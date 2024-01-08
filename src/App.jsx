@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { database, auth } from "./firebase";
+import { database, auth, storage } from "./firebase";
 import { signOut } from "firebase/auth";
 import { onChildAdded, onChildChanged, ref } from "firebase/database";
 import "./App.css";
@@ -35,6 +35,7 @@ function App() {
 
   const DB_PROFILES_KEY = "profiles";
   const DB_CONVO_KEY = "conversations";
+  const DB_PROFILE_IMAGES_KEY = "profile_images";
   const profilesRef = ref(database, DB_PROFILES_KEY);
   const conversationsRef = ref(database, DB_CONVO_KEY);
 
@@ -43,6 +44,8 @@ function App() {
     onChildAdded(profilesRef, (data) => {
       setProfiles((prev) => [...prev, { key: data.key, val: data.val() }]);
     });
+    //onChildAdded is currently being called when the user's ProfilePage is called,
+    //causing a setProfiles() is not defined error to appear.
 
     onChildChanged(profilesRef, (data) =>
       setProfiles((prev) =>
@@ -142,7 +145,15 @@ function App() {
         />
         <Route
           path="/create-profile"
-          element={<InputProfile user={user} setIsLoggedIn={setIsLoggedIn} />}
+          element={
+            <InputProfile
+              user={user}
+              setIsLoggedIn={setIsLoggedIn}
+              storage={storage}
+              DB_PROFILE_IMAGES_KEY={DB_PROFILE_IMAGES_KEY}
+              database={database}
+            />
+          }
         />
 
         <Route
@@ -154,6 +165,7 @@ function App() {
               currentProfile={currentProfile}
               setCurrentProfile={setCurrentProfile}
               DB_PROFILES_KEY={DB_PROFILES_KEY}
+              DB_PROFILE_IMAGES_KEY={DB_PROFILE_IMAGES_KEY}
               profilesRef={profilesRef}
             />
           }

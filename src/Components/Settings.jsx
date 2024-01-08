@@ -44,6 +44,7 @@ function Settings({
         // ...
       })
       .catch((error) => {
+        console.log("THIS IS THE ERROR:", error);
         if (error.code == "auth/requires-recent-login") {
           setOpenModal(true);
           //get the user to reauthenticate
