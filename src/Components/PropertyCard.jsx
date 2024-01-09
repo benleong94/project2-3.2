@@ -6,17 +6,17 @@ function PropertyCard({ property }) {
   return (
     <div className="my-4 mx-3">
       <Card style={{ width: "40rem" }}>
-        <Card.Img variant="top" src={property.imageUrl} />
+        <Card.Img variant="top" src={property.val.url} />
         <Card.Body>
-          <Card.Title>{property.title}</Card.Title>
+          <Card.Title>{property.val.title}</Card.Title>
           <Card.Text>
-              ID: {property.id}
+              ID: {property.val.id}
               <br />
-              Price: {property.price}
+              Price: {property.val.price}
               <br />
-              Location: {property.location}
+              Location: {property.val.location}
               <br />
-              Size: {property.size} 
+              Size: {property.val.size} 
           </Card.Text>
         </Card.Body>
       </Card>  

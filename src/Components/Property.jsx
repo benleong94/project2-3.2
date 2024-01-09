@@ -1,34 +1,60 @@
 import PropertyCard from './PropertyCard';
 import PropertyDetails from './PropertyDetails';
 import { useState } from 'react';
+import { database } from "../firebase";
+import { ref, set, push } from "firebase/database"; 
 
-function Property() {
-  const [properties, setProperties] = useState([
+const DB_PROPERTIES_KEY = "properties";
+
+function Property({ properties, currentProfile, profiles}) {
+  const [uploadProperties, setUploadProperties] = useState([
     {
-      id: "123",
+      id: "001",
       title: "2-Bedroom Apartment",
-      description: "Apartment in the city center.",
+      description: "Apartment",
       price: "$1000",
       location: "Jurong",
       size: "4 sqft",
       imageUrl: "src/assets/property.jpeg",
     },
     {
-      id: "234",
-      title: "2-Bedroom Apartment",
-      description: "Apartment in the city center.",
-      price: "$1000",
-      location: "Jurong",
-      size: "4 sqft",
-      imageUrl: "src/assets/property.jpeg",
+      id: "002",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
     },
   ]);
-  const [viewProperty, setViewProperty] = useState(false)
-  const [currentProperty, setCurrentProperty] = useState(null)
+  const [viewProperty, setViewProperty] = useState(false);
+  const [currentProperty, setCurrentProperty] = useState(null);
 
   const handleClick = (property) => {
-    setCurrentProperty(property); 
+    setCurrentProperty(property);
     setViewProperty(true);
+  };
+
+  const propertiesRef = ref(database, DB_PROPERTIES_KEY);
+
+  const handleUpload = () => {
+    uploadProperties.forEach((property) => {
+      const newPropertyRef = push(propertiesRef);
+      try {
+        set(newPropertyRef, {
+          id: property.id,
+          title: property.title,
+          description: property.description,
+          price: property.price,
+          location: property.location,
+          size: property.size,
+          url: "",
+          peopleWhoLiked: [""],
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    });
   };
 
   return (
@@ -36,6 +62,7 @@ function Property() {
       <div className="text-2xl font-bold my-4 text-gray-700">
         Available Properties:{" "}
       </div>
+      <button onClick={handleUpload}>Upload Test Properties</button>
       {viewProperty == false ? (
         <div className="max-h-[45rem] overflow-y-auto">
           {properties.map((property, index) => (
@@ -46,7 +73,11 @@ function Property() {
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center">
-          <PropertyDetails property={currentProperty} />
+          <PropertyDetails
+            property={currentProperty}
+            currentProfile={currentProfile}
+            profiles={profiles}
+          />
           <button
             onClick={() => setViewProperty(false)}
             className="bg-white rounded-lg m-2 p-4 text-lg"
