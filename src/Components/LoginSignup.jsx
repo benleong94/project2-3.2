@@ -3,6 +3,7 @@ import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
+  getAuth,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { ref, set } from "firebase/database";

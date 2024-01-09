@@ -142,9 +142,9 @@ function App() {
           path="/settings"
           element={
             <Settings
-              isLoggedIn={isLoggedIn}
               handleSignOut={handleSignOut}
               user={user}
+              setUser={setUser}
               password={password}
               setPassword={setPassword}
               email={email}
