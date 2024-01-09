@@ -1,14 +1,10 @@
 import { Link, redirect, useNavigate } from "react-router-dom";
-import {
-  getAuth,
-  updateEmail,
-  reauthenticateWithCredential,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth, verifyBeforeUpdateEmail } from "firebase/auth";
 import { useEffect, useState } from "react";
+import AuthModal from "./AuthModal";
+import VerificationEmailSentModal from "./VerificationEmailSentModal";
 
 function Settings({
-  isLoggedIn,
   handleSignOut,
   user,
   setUser,
@@ -17,8 +13,11 @@ function Settings({
   password,
   setPassword,
 }) {
-  const [openModal, setOpenModal] = useState(false);
-  const [user_credentials, setUserCredentials] = useState({});
+  const [openAuthModal, setOpenAuthModal] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const [openVerificationEmailSentModal, setOpenVerificationEmailSentModal] =
+    useState(false);
+
   const navigate = useNavigate();
 
   const handleEmailInput = (e) => {
@@ -29,63 +28,89 @@ function Settings({
     }));
   };
 
+  const handlePasswordInput = (e) => {
+    setUser((prevUserValue) => ({
+      ...prevUserValue,
+      email: e.target.value,
+    }));
+  };
+
   const submitEmail = (e) => {
     e.preventDefault();
 
-    const auth = getAuth();
-
     //user.email.type must be a string.
     console.log(typeof user.email);
+    const auth = getAuth();
+    console.log("auth.currentUser: ", auth.currentUser);
 
-    updateEmail(auth.currentUser, `${user.email}`)
+    verifyBeforeUpdateEmail(auth.currentUser, user.email)
       .then(() => {
-        // Email updated!
-        // ...
+        setOpenVerificationEmailSentModal(true);
+        console.log("verification email sent to new email. go check new email");
       })
       .catch((error) => {
-        console.log("THIS IS THE ERROR:", error);
-        if (error.code == "auth/requires-recent-login") {
-          setOpenModal(true);
-          //get the user to reauthenticate
-        }
-        // An error occurred
-        // ...
+        console.log(error);
       });
   };
 
-  useEffect(() => {
-    console.log("openModal: ", openModal);
-  }, [openModal]);
+  const submitPassword = (e) => {};
 
   useEffect(() => {
-    setEmail(user.email);
-  }, []);
-
-  useEffect(() => {
-    console.log("email state updated to: ", user.email);
+    console.log("user:", user);
   }, [user]);
 
   return (
     <div>
       <div className="settings-container">
         <div>
-          <h1>Email:</h1>
-          <input type="text" value={user.email} />
-        </div>
+          {verified ? (
+            <>
+              <form onSubmit={submitPassword}>
+                <h1>New Password</h1>
+                <input
+                  type="password"
+                  value={user.password}
+                  onChange={handlePasswordInput}
+                />
+                <button type="submit">Update Password!</button>
+              </form>
 
-        <div>
-          <h1>Old Password</h1>
-          <input type="password" value={""} />
+              <form onSubmit={submitEmail}>
+                <h1>New Email</h1>
+                <input
+                  type="text"
+                  value={user.email}
+                  onChange={handleEmailInput}
+                />
+                <button type="submit"> Update Email!</button>
+              </form>
+            </>
+          ) : (
+            <>
+              <p>Please verify to edit email or password.</p>
+              <button onClick={() => setOpenAuthModal(true)}>Verify</button>
+              {/*Popup to let user reauthenticate*/}
+              <AuthModal
+                openAuthModal={openAuthModal}
+                onClose={() => setOpenAuthModal(false)}
+                password={password}
+                setPassword={setPassword}
+                email={email}
+                setEmail={setEmail}
+                verified={verified}
+                setVerified={setVerified}
+              ></AuthModal>
+            </>
+          )}
         </div>
-
-        <div>
-          <h1>New Password</h1>
-          <input type="password" value={""} />
-        </div>
-
         <Link to={"/profilepage"}>Your Profile</Link>
-
         <Link onClick={handleSignOut}>Sign Out</Link>
+        {openVerificationEmailSentModal && (
+          <VerificationEmailSentModal
+            openVerificationEmailSentModal={openVerificationEmailSentModal}
+            onClose={() => setOpenVerificationEmailSentModal(false)}
+          />
+        )}
       </div>
     </div>
   );
