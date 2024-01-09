@@ -26,6 +26,7 @@ function App() {
   const [roomieProfiles, setRoomieProfiles] = useState([]);
   const [conversations, setConversations] = useState([]);
   const [currConversations, setCurrConversations] = useState(null);
+  const [properties, setProperties] = useState([])
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -33,9 +34,11 @@ function App() {
 
   const DB_PROFILES_KEY = "profiles";
   const DB_CONVO_KEY = "conversations";
+  const DB_PROPERTIES_KEY = "properties";
   const DB_PROFILE_IMAGES_KEY = "profile_images";
   const profilesRef = ref(database, DB_PROFILES_KEY);
   const conversationsRef = ref(database, DB_CONVO_KEY);
+  const propertiesRef = ref(database, DB_PROPERTIES_KEY);
 
   useEffect(() => {
     onChildAdded(profilesRef, (data) => {
@@ -55,6 +58,16 @@ function App() {
     });
     onChildChanged(conversationsRef, (data) =>
       setConversations((prev) =>
+        prev.map((item) =>
+          item.key === data.key ? { key: data.key, val: data.val() } : item
+        )
+      )
+    );
+    onChildAdded(propertiesRef, (data) => {
+      setProperties((prev) => [...prev, { key: data.key, val: data.val() }]);
+    });
+    onChildChanged(propertiesRef, (data) =>
+      setProperties((prev) =>
         prev.map((item) =>
           item.key === data.key ? { key: data.key, val: data.val() } : item
         )
@@ -114,7 +127,7 @@ function App() {
           }
         />
         <Route path="/roomie-details" element={<RoomieDetails />}></Route>
-        <Route path="/find-property" element={<Property />} />
+        <Route path="/find-property" element={<Property properties={properties} currentProfile={currentProfile} profiles={profiles}/>} />
         <Route
           path="/chat"
           element={
