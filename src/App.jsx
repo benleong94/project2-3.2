@@ -1,10 +1,8 @@
-import Navbar from "./Components/Navbar";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { database, auth, storage } from "./firebase";
 import { signOut } from "firebase/auth";
 import { onChildAdded, onChildChanged, ref } from "firebase/database";
-import "./App.css";
 
 //Components
 import Navbar from "./Components/Navbar";
@@ -16,11 +14,6 @@ import LoginSignup from "./Components/LoginSignup";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Settings from "./Components/Settings";
-import { useState, useEffect } from "react";
-import InputProfile from "./Components/InputProfile";
-import { database, auth } from "./firebase";
-import { signOut } from "firebase/auth";
-import { onChildAdded, onChildChanged, ref } from "firebase/database";
 import RoomieDetails from "./Components/RoomieDetails";
 import ProfilePage from "./Components/ProfilePage";
 import ErrorPage from "./Components/ErrorPage";
@@ -33,6 +26,8 @@ function App() {
   const [roomieProfiles, setRoomieProfiles] = useState([]);
   const [conversations, setConversations] = useState([]);
   const [currConversations, setCurrConversations] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -137,6 +132,10 @@ function App() {
               isLoggedIn={isLoggedIn}
               handleSignOut={handleSignOut}
               user={user}
+              password={password}
+              setPassword={setPassword}
+              email={email}
+              setEmail={setEmail}
             />
           }
         />

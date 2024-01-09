@@ -142,9 +142,10 @@ function ProfilePage({
         <form onSubmit={writeData}>
           {" "}
           <input
+            name="name"
             type="text"
             value={currentProfile.val.name}
-            onChange={handleProfile}
+            onChange={handleProfileInput}
           />
           <button type="submit">Submit name!</button>
         </form>

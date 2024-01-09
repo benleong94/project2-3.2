@@ -6,7 +6,6 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
-import Modal from "./Modal";
 
 function Settings({
   isLoggedIn,
