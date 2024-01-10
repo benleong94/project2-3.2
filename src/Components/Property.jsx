@@ -1,12 +1,12 @@
-import PropertyCard from './PropertyCard';
-import PropertyDetails from './PropertyDetails';
-import { useState } from 'react';
+import PropertyCard from "./PropertyCard";
+import PropertyDetails from "./PropertyDetails";
+import { useState } from "react";
 import { database } from "../firebase";
-import { ref, set, push } from "firebase/database"; 
+import { ref, set, push } from "firebase/database";
 
 const DB_PROPERTIES_KEY = "properties";
 
-function Property({ properties, currentProfile, profiles}) {
+function Property({ properties, currentProfile, profiles }) {
   const [uploadProperties, setUploadProperties] = useState([
     {
       id: "001",
@@ -25,6 +25,89 @@ function Property({ properties, currentProfile, profiles}) {
       location: "Lakeside",
       size: "6 sqft",
       imageUrl: "src/assets/house.jpg",
+    },
+    {
+      id: "003",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
+    },
+    {
+      id: "004",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
+    },
+    {
+      id: "005",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
+    },
+    {
+      id: "006",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
+    },
+    {
+      id: "002",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
+    },
+    {
+      id: "007",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
+    },
+    {
+      id: "008",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
+    },
+    {
+      id: "009",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
+    },
+    {
+      id: "010",
+      title: "3-Bedroom Apartment",
+      description: "Condo",
+      price: "$2000",
+      location: "Lakeside",
+      size: "6 sqft",
+      imageUrl: "src/assets/house.jpg",
+      // googleURL
+      // input form
     },
   ]);
   const [viewProperty, setViewProperty] = useState(false);
@@ -50,6 +133,7 @@ function Property({ properties, currentProfile, profiles}) {
           size: property.size,
           url: "",
           peopleWhoLiked: [""],
+          comments: [""],
         });
       } catch (err) {
         console.log(err);
@@ -90,4 +174,4 @@ function Property({ properties, currentProfile, profiles}) {
   );
 }
 
-export default Property
+export default Property;

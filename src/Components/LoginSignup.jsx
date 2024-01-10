@@ -66,7 +66,6 @@ function LoginSignup({ setIsLoggedIn, setUser }) {
     <div className="login-signup-container">
       <label>Email: </label>
       <input value={email} onChange={(e) => setEmail(e.target.value)}></input>
-      <br />
       <label>Password: </label>
       <input
         type="password"
@@ -74,8 +73,12 @@ function LoginSignup({ setIsLoggedIn, setUser }) {
         onChange={(e) => setPassword(e.target.value)}
       ></input>
       <div>
-        <button onClick={signIn}>Sign In</button>
-        <button onClick={signUp}>Sign Up</button>
+        <button className="rounded-full" onClick={signIn}>
+          Sign In
+        </button>
+        <button className="rounded-full" onClick={signUp}>
+          Sign Up
+        </button>
       </div>
     </div>
   );
