@@ -8,6 +8,7 @@ function PropertyDetails({ property, currentProfile, profiles }) {
   const [likedUsers, setLikedUsers] = useState([]);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [nameMap, setNameMap] = useState({})
 
   const DB_PROPERTIES_KEY = "properties";
   const propertiesRef = ref(database, DB_PROPERTIES_KEY);
@@ -67,8 +68,16 @@ function PropertyDetails({ property, currentProfile, profiles }) {
       });
     });
     setLikedUsers(nameArray);
-    setComments(property.val.comments || []);
   }, [property]);
+
+  useEffect(() => {
+    const nameMap = new Map(); 
+    profiles.forEach((profile) => {
+      nameMap.set(profile.key, profile.val.name)
+    })
+    setNameMap(nameMap);
+    setComments(property.val.comments)
+  }, [property])
 
   return (
     <>
@@ -114,7 +123,8 @@ function PropertyDetails({ property, currentProfile, profiles }) {
         <div className="mb-2">
           {comments.map((comment, index) => (
             <div key={index}>
-              <strong>{comment.user}</strong>: {comment.comment}
+              {console.log(nameMap)}
+              <strong>{nameMap.get(comment.user)}</strong>: {comment.comment}
             </div>
           ))}
         </div>
