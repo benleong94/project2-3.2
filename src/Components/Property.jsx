@@ -15,7 +15,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$1000",
       location: "Jurong",
       size: "4 sqft",
-      imageUrl: "src/assets/property.jpeg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-13903824/original/82d996fb-d7c4-46a8-a713-febd281cd69f.jpeg?im_w=1200",
     },
     {
       id: "002",
@@ -24,7 +25,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-51809333/original/0da70267-d9da-4efb-9123-2714b651c9fd.jpeg?im_w=1200",
     },
     {
       id: "003",
@@ -33,7 +35,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/airflow/Hosting-1112254/original/e6bed0e6-6190-4119-bd80-d12d369cea19.jpg?im_w=1200",
     },
     {
       id: "004",
@@ -42,7 +45,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-1021699523679171741/original/292c0f2a-a851-4a50-a3b5-834faf91b836.jpeg?im_w=1200",
     },
     {
       id: "005",
@@ -51,7 +55,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-42654284/original/c87c0f17-3159-4619-b408-2a368618d7a9.jpeg?im_w=1200",
     },
     {
       id: "006",
@@ -60,7 +65,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-566028065891205462/original/8272f279-b785-4533-b9e5-b400a37d6a52.jpeg?im_w=1200",
     },
     {
       id: "002",
@@ -69,7 +75,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-899236914237980180/original/c59dce38-3a76-4efc-ba1d-44c9b30101b4.jpeg?im_w=1200",
     },
     {
       id: "007",
@@ -78,7 +85,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-792742639858876908/original/bdf7942e-2c10-4acd-b653-820b9ed4dae5.jpeg?im_w=1200",
     },
     {
       id: "008",
@@ -87,7 +95,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-776408013311849576/original/d1dfe4d3-950d-4aa2-afc6-f83b51c3f227.jpeg?im_w=1200",
     },
     {
       id: "009",
@@ -96,7 +105,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-651792739552139367/original/4451b587-769a-44c6-9eb4-0e6500f42c42.jpeg?im_w=1200",
     },
     {
       id: "010",
@@ -105,9 +115,8 @@ function Property({ properties, currentProfile, profiles }) {
       price: "$2000",
       location: "Lakeside",
       size: "6 sqft",
-      imageUrl: "src/assets/house.jpg",
-      // googleURL
-      // input form
+      imageUrl:
+        "https://a0.muscache.com/im/pictures/miso/Hosting-54064179/original/3bfbb323-e459-409d-99f8-b2fadd1c4a97.jpeg?im_w=1200",
     },
   ]);
   const [viewProperty, setViewProperty] = useState(false);
@@ -131,7 +140,7 @@ function Property({ properties, currentProfile, profiles }) {
           price: property.price,
           location: property.location,
           size: property.size,
-          url: "",
+          url: property.imageUrl,
           peopleWhoLiked: [""],
           comments: [""],
         });
