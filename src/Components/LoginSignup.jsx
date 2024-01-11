@@ -64,21 +64,37 @@ function LoginSignup({ setIsLoggedIn, setUser }) {
 
   return (
     <div className="login-signup-container">
-      <label>Email: </label>
-      <input value={email} onChange={(e) => setEmail(e.target.value)}></input>
-      <label>Password: </label>
+      <div>
+        <img src="icons/home2.png" alt="Roomie Icon" />
+      </div>
+      <div className="text-7xl font-bold text-white">
+        <p>Roomie</p>
+      </div>
+      <br />
+      {/* add email and password icon */}
       <input
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      ></input>
+      <input
+        placeholder="Password"
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       ></input>
-      <div>
-        <button className="rounded-full" onClick={signIn}>
-          Sign In
-        </button>
-        <button className="rounded-full" onClick={signUp}>
-          Sign Up
-        </button>
+      <div className="flex justify-between flex space-x-8">
+        <div>
+          <button className="rounded-full w-24" onClick={signIn}>
+            Sign In
+          </button>
+        </div>
+        {/* change signup color */}
+        <div>
+          <button className="rounded-full w-24" onClick={signUp}>
+            Sign Up
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ body {
 }
 
 #root {
-  max-width: 60vw;
+  max-width: 80vw;
   height: 100vh;
   margin: 0 auto;
   display: flex;
@@ -21,8 +21,8 @@ body {
 }
 
 .user-profile img {
-  width: 350px;
-  height: 450px;
+  width: 300px;
+  height: 350px;
 }
 
 .profile-wrapper {
@@ -31,6 +31,8 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 1rem;
+  width: 300px;
+  border-radius: 10px;
 }
 
 .profile-wrapper > .pw-buttons > button {
@@ -53,17 +55,13 @@ body {
   text-align: center;
 }
 
-.user-profile > .profile-name {
-  font-size: 1.2rem;
+.user-profile > .profile-name-age {
+  font-size: 1.5rem;
   margin-bottom: 1rem;
   font-weight: bold;
-}
-
-.settings-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 2rem;
+  text-align: left;
+  padding-top: 15px;
+  padding-left: 15px;
 }
 
 .login-signup-container {
@@ -74,10 +72,7 @@ body {
   width: 300px;
   margin: auto;
   padding: 20px;
-  border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
 }
 
 .login-signup-container label {
@@ -94,26 +89,13 @@ body {
 }
 
 .login-signup-container button {
-  width: 100%;
   padding: 10px;
   margin-top: 10px;
   border: none;
-  background-color: #4caf50;
+  background-color: #f09148;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
-
-.login-signup-container button:hover {
-  background-color: #45a049;
-}
-
-.login-signup-container button:nth-child(2) {
-  background-color: #008cba;
-}
-
-.login-signup-container button:nth-child(2):hover {
-  background-color: #007bb5;
 }
 
 .matched-container {
@@ -125,68 +107,64 @@ body {
   border-radius: 4px;
 }
 
-.input-container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+/* Styles for mobile devices */
+@media (max-width: 767px) {
+  .settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2rem;
+  }
 
-.input-container form div {
-  margin-bottom: 15px;
-}
+  .input-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
-.input-container label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #333;
-}
+  .input-container form div {
+    margin-bottom: 15px;
+  }
 
-.input-container input[type="text"],
-.input-container input[type="number"],
-.input-container input[type="file"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+  .input-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
 
-.input-container input[type="checkbox"] {
-  margin-left: 10px;
-}
+  .input-container input[type="text"],
+  .input-container input[type="number"],
+  .input-container input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
 
-.input-container button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #5cb85c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
+  .input-container input[type="checkbox"] {
+    margin-left: 10px;
+  }
 
-.input-container button:hover {
-  background-color: #4cae4c;
-}
+  .input-container button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
 
-.greeting-user {
-  font-family: "Arial", sans-serif;
-  font-size: 2rem;
-  color: #333;
-  background-color: white;
-  padding: 10px;
-  margin-bottom: 50px;
-  border-radius: 5px;
-  text-align: center;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
+  .input-container button:hover {
+    background-color: #4cae4c;
+  }
 }
 
 @media screen and (max-width: 600px) {

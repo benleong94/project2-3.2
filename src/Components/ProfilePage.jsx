@@ -125,15 +125,18 @@ function ProfilePage({
 
   return (
     <div className="settings-container">
-      <h1>Profile Page</h1>
-
+      <div className="text-4xl font-bold my-4 text-white">Your Profile</div>
       <div>
-        <h1>Profile Picture:</h1>
         <img src={currentProfile.val.url} width="100px" height="100px" />
         <form onSubmit={writePhotoData}>
           {" "}
           <input name="url" type="file" onChange={handleImgFileInput} />
-          <button type="submit">Upload new photo!</button>
+          <button
+            onClick={() => setViewProperty(false)}
+            className="bg-white rounded-lg m-2 p-2 text-lg"
+          >
+            Upload Profile Picture
+          </button>
         </form>
       </div>
 
@@ -147,10 +150,11 @@ function ProfilePage({
             value={currentProfile.val.name}
             onChange={handleProfileInput}
           />
-          <button type="submit">Submit name!</button>
+          <button className="bg-white rounded-lg m-2 p-1" type="submit">
+            Submit
+          </button>
         </form>
       </div>
-
       <div>
         <h2>Age:</h2>
         <form onSubmit={writeData}>
@@ -160,7 +164,9 @@ function ProfilePage({
             value={currentProfile.val.age}
             onChange={handleProfileInput}
           />
-          <button type="submit">Submit age!</button>
+          <button className="bg-white rounded-lg m-2 p-1" type="submit">
+            Submit
+          </button>
         </form>
       </div>
 
@@ -173,7 +179,9 @@ function ProfilePage({
             value={currentProfile.val.occupation}
             onChange={handleProfileInput}
           />
-          <button type="submit">Submit occupation!</button>
+          <button className="bg-white rounded-lg m-2 p-1" type="submit">
+            Submit
+          </button>
         </form>
       </div>
 
@@ -186,7 +194,9 @@ function ProfilePage({
             value={currentProfile.val.hobbies}
             onChange={handleProfileInput}
           />
-          <button type="submit">Submit hobbies!</button>
+          <button className="bg-white rounded-lg m-2 p-1" type="submit">
+            Submit
+          </button>
         </form>
       </div>
 

@@ -87,8 +87,12 @@ function Settings({
             </>
           ) : (
             <>
-              <p>Please verify to edit email or password.</p>
-              <button onClick={() => setOpenAuthModal(true)}>Verify</button>
+              <button
+                className="text-white bg-amber-500 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900 w-48"
+                onClick={() => setOpenAuthModal(true)}
+              >
+                Account
+              </button>
               {/*Popup to let user reauthenticate*/}
               <AuthModal
                 openAuthModal={openAuthModal}
@@ -103,8 +107,18 @@ function Settings({
             </>
           )}
         </div>
-        <Link to={"/profilepage"}>Your Profile</Link>
-        <Link onClick={handleSignOut}>Sign Out</Link>
+        <Link
+          className="text-white bg-amber-500 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900 w-48"
+          to={"/profilepage"}
+        >
+          Profile
+        </Link>
+        <Link
+          className="text-white bg-amber-500 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900 w-48"
+          onClick={handleSignOut}
+        >
+          Sign Out
+        </Link>
         {openVerificationEmailSentModal && (
           <VerificationEmailSentModal
             openVerificationEmailSentModal={openVerificationEmailSentModal}

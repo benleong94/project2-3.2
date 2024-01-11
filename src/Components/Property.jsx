@@ -152,12 +152,17 @@ function Property({ properties, currentProfile, profiles }) {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="text-2xl font-bold my-4 text-gray-700">
-        Available Properties:{" "}
+      <div className="text-4xl font-bold my-4 text-white">
+        Properties Nearby
       </div>
-      <button onClick={handleUpload}>Upload Test Properties</button>
+      <button
+        className="text-white bg-amber-500 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900"
+        onClick={handleUpload}
+      >
+        Upload Properties
+      </button>
       {viewProperty == false ? (
-        <div className="max-h-[45rem] overflow-y-auto">
+        <div className="max-h-[38rem] overflow-y-auto">
           {properties.map((property, index) => (
             <div key={index} onClick={() => handleClick(property)}>
               <PropertyCard property={property} />
@@ -173,7 +178,7 @@ function Property({ properties, currentProfile, profiles }) {
           />
           <button
             onClick={() => setViewProperty(false)}
-            className="bg-white rounded-lg m-2 p-4 text-lg"
+            className="bg-white rounded-lg m-2 p-2 text-lg"
           >
             Back
           </button>

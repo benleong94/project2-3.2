@@ -8,7 +8,7 @@ function PropertyDetails({ property, currentProfile, profiles }) {
   const [likedUsers, setLikedUsers] = useState([]);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [nameMap, setNameMap] = useState({})
+  const [nameMap, setNameMap] = useState({});
 
   const DB_PROPERTIES_KEY = "properties";
   const propertiesRef = ref(database, DB_PROPERTIES_KEY);
@@ -71,17 +71,17 @@ function PropertyDetails({ property, currentProfile, profiles }) {
   }, [property]);
 
   useEffect(() => {
-    const nameMap = new Map(); 
+    const nameMap = new Map();
     profiles.forEach((profile) => {
-      nameMap.set(profile.key, profile.val.name)
-    })
+      nameMap.set(profile.key, profile.val.name);
+    });
     setNameMap(nameMap);
-    setComments(property.val.comments)
-  }, [property])
+    setComments(property.val.comments);
+  }, [property]);
 
   return (
     <>
-      <div className="max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg">
+      <div className="max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg w-80">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Property Details
         </h2>
@@ -103,22 +103,28 @@ function PropertyDetails({ property, currentProfile, profiles }) {
           <span className="font-medium text-gray-600">Size: </span>
           <span className="text-gray-700">{property.val.size}</span>
         </div>
-        <div
-          className="mb-1 text-lg"
-          onClick={() => {
-            setViewPropertyLikes(true);
-          }}
-        >
-          Click to see who liked this property!
+      </div>
+      <div className="flex justify-between">
+        <div>
+          <button
+            className="bg-white rounded-lg m-2 p-2"
+            onClick={likeProperty}
+          >
+            <img src="icons/like.png" width={20} />
+          </button>
+        </div>
+        <div>
+          <button
+            className="bg-white rounded-lg m-2 p-2"
+            onClick={() => {
+              setViewPropertyLikes(true);
+            }}
+          >
+            See who liked this property!
+          </button>
         </div>
       </div>
-      <button
-        className="bg-white rounded-lg m-2 p-4 text-lg"
-        onClick={likeProperty}
-      >
-        Like This Property!
-      </button>
-      <div className="max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg">
+      <div className="max-w-lg mx-auto p-4 bg-white shadow-lg rounded-lg w-80">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Comments</h2>
         <div className="mb-2">
           {comments.map((comment, index) => (
@@ -138,7 +144,7 @@ function PropertyDetails({ property, currentProfile, profiles }) {
           ></textarea>
         </div>
         <button
-          className="bg-blue-500 text-white rounded-lg px-4 py-2"
+          className="text-white bg-amber-500 rounded-lg px-4 py-2"
           onClick={addComment}
         >
           Add Comment
