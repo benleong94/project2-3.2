@@ -30,8 +30,8 @@ function Chat({ currentProfile, profiles, currConversations }) {
 
   return (
     <>
-      <div className="bg-gray-300 p-6 rounded-lg shadow-md">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">
+      <div>
+        <h1 className="text-4xl font-bold text-white mb-4">
           Matched Friends:{" "}
         </h1>
         {matchedProfiles.map((userProfile, index) => {

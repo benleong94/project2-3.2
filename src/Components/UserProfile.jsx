@@ -3,8 +3,10 @@ function UserProfile({ profile }) {
 
   return (
     <div className="user-profile">
-      <div className="profile-name">Name: {profile.val.name}</div>
-      <img src={profile.val.url} alt="" width="150px" height="100px"></img>
+      <img src={profile.val.url} alt="Roomie"></img>
+      <div className="profile-name-age">
+        {profile.val.name}, {profile.val.age}
+      </div>
     </div>
   );
 }
